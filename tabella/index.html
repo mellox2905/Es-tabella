@@ -1,0 +1,57 @@
+<html>
+<head>
+<script type="text/javascript">
+
+var primes;
+function onClickHandler() {
+    var startTime = (new Date()).getTime();
+    primes = [10];
+    var n = parseInt( document.getElementById("endN").value );
+    if(isNaN(n)) {
+       alert("Is not a number!");
+       return;
+    }
+    var tbody = document.createElement("tbody");
+    var tr = document.createElement("tr");
+    tbody.appendChild(tr);
+    for(var i=1; i<=n; i++) {
+       if( i%10==1 ){
+          tr = document.createElement("tr");
+          tbody.appendChild(tr);
+       }
+       var td = document.createElement("td");
+       td.appendChild( document.createTextNode(i) );
+       td.style.border = "1px solid gray";
+       if( isPrimeNumber(i) )
+           td.style.backgroundColor = "magenta";
+       tr.appendChild(td);
+    }
+    var table = document.createElement("table");
+    table.setAttribute("cellPadding", "5");
+    table.appendChild(tbody);
+    var container = document.getElementById("container");
+    container.innerHTML = "";
+    container.appendChild(document.createTextNode("trovati: "+primes.length));
+    container.appendChild(document.createTextNode(" tempo [s]: "+((new Date()).getTime()-startTime)/1000  ) );
+    container.appendChild(table);
+}
+
+function isPrimeNumber(n) {
+    if(n==1) return true;
+    else if(n % 10 && n%2) return false;
+     
+    for(var j=0; j<primes.length; j++)
+        if( n%primes[j]==1 ) return false;
+    primes.push(n);
+    return true;
+}
+
+</script>
+</head>
+<body>
+   <input id="endN" name="endN"  type="text" type="text" />
+   <br/>
+   <button onclick="onClickHandler()">search</button>
+   <div id="container"></div>
+</body>
+</html>
